@@ -1,12 +1,9 @@
+import scala.collection.Seq
 
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
+// Change to Scala 2.13 since Finch doesn't support Scala 3 yet
 ThisBuild / scalaVersion := "2.12.18"
-
-lazy val root = (project in file("."))
-  .settings(
-    name := "gRPCServer"
-  )
 
 // More specific dependency conflict resolution
 ThisBuild / libraryDependencySchemes ++= Seq(
@@ -22,6 +19,12 @@ Compile / mainClass := Some("com.khan.api.server.main")
 Compile / PB.targets := Seq(
   scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
 )
+
+
+lazy val root = (project in file("."))
+  .settings(
+    name := "core"
+  )
 
 resolvers ++= Seq(
   "Maven Repository" at "https://mvnrepository.com/artifact",

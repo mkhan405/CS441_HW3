@@ -4,6 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/CS441_HW3.iml" filepath="$PROJECT_DIR$/.idea/modules/CS441_HW3.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/CS441_HW3.CS441_HW3-build.iml" filepath="$PROJECT_DIR$/.idea/modules/CS441_HW3.CS441_HW3-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core.iml" filepath="$PROJECT_DIR$/.idea/modules/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/.idea/modules/core.core-build.iml" filepath="$PROJECT_DIR$/core/.idea/modules/core.core-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/finchServer.iml" filepath="$PROJECT_DIR$/.idea/modules/finchServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/finchServer/.idea/modules/finchServer.finchServer-build.iml" filepath="$PROJECT_DIR$/finchServer/.idea/modules/finchServer.finchServer-build.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/gRPCServer.iml" filepath="$PROJECT_DIR$/.idea/modules/gRPCServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/gRPCServer/.idea/modules/gRPCServer.gRPCServer-build.iml" filepath="$PROJECT_DIR$/gRPCServer/.idea/modules/gRPCServer.gRPCServer-build.iml" />
     </modules>

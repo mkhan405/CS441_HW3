@@ -1,0 +1,18 @@
+syntax = "proto2";
+
+package com.khan.proto;
+
+service TextGenerationService {
+  rpc GenerateResponse (QueryRequest) returns (GenerationResult) {}
+}
+
+message QueryRequest {
+  required string queryText = 1;
+}
+
+message GenerationResult {
+  required string generation = 1;
+  required int64 prompt_token_count = 2;
+  required int64  generation_token_count = 3;
+  required string stop_reason = 4;
+}

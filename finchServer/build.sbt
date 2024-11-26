@@ -1,11 +1,10 @@
-
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
 ThisBuild / scalaVersion := "2.12.18"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "gRPCServer"
+    name := "finchServer"
   )
 
 // More specific dependency conflict resolution
@@ -52,24 +51,10 @@ libraryDependencies ++= Seq(
   "io.netty" % "netty-transport-native-epoll" % "4.1.100.Final" classifier "linux-x86_64",
 )
 
-//// Force specific versions for problematic transitive dependencies
-//dependencyOverrides ++= Seq(
-//  "io.circe" %% "circe-jawn" % circeVersion,
-//  "io.circe" %% "circe-core" % circeVersion,
-//  "io.circe" %% "circe-parser" % circeVersion,
-//  "io.circe" %% "circe-generic" % circeVersion
-//)
-
 libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-actor" % "2.5.26",
-  "com.typesafe.akka" %% "akka-http" % "10.1.11",
-  "com.typesafe.akka" %% "akka-stream" % "2.5.26",
-  "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.11",
   "com.twitter" %% "twitter-server" % "22.12.0",
   "io.grpc" % "grpc-netty" % scalapb.compiler.Version.grpcJavaVersion,
   "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf",
   "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapb.compiler.Version.scalapbVersion,
   "io.netty" % "netty-tcnative-boringssl-static" % "2.0.58.Final",
-  "com.typesafe.play" %% "play-json" % "2.9.2",
-  "org.apache.httpcomponents" % "httpclient" % "4.5.13"
 )
