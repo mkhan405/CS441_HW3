@@ -1,8 +1,10 @@
-import scala.concurrent.{ExecutionContext, Future}
-import LambdaClient._
+package com.khan.gRPCServer
 
-import io.grpc.{Server, ServerBuilder}
 import com.khan.proto.query.{GenerationResult, QueryRequest, TextGenerationServiceGrpc}
+import io.grpc.{Server, ServerBuilder}
+
+import scala.concurrent.{ExecutionContext, Future}
+import org.slf4j.{Logger, LoggerFactory}
 
 object LambdaServer {
   def main(args: Array[String]): Unit = {
@@ -13,13 +15,15 @@ object LambdaServer {
 }
 
 class LambdaServer(executionContext: ExecutionContext) { self =>
+  val logger: Logger = LoggerFactory.getLogger("gRPCServer")
+  val config: AppConfig = AppConfig.load()
+
   private[this] var server: Server = null
-  val port = 50051
 
   private def start(): Unit = {
-    println(s"Started gRPC Server on: ${port}")
+    logger.info(s"Started gRPC Server on: ${config.port}")
     server = ServerBuilder
-      .forPort(port)
+      .forPort(config.port)
       .addService(
         TextGenerationServiceGrpc.bindService(
           new TextGenerationImpl,
@@ -28,6 +32,7 @@ class LambdaServer(executionContext: ExecutionContext) { self =>
       ).asInstanceOf[ServerBuilder[_]].build.start
 
     sys.addShutdownHook {
+      logger.info("Shutting down gRPC Server...")
       self.stop()
     }
   }

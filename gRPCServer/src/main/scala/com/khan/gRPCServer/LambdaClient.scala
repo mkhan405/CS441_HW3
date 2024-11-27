@@ -1,8 +1,9 @@
+package com.khan.gRPCServer
 
-import com.khan.api.{AppConfig, LambdaConfig}
-import org.apache.http.impl.client.HttpClients
-import org.apache.http.client.methods.{CloseableHttpResponse, HttpGet, HttpPost}
+
+import org.apache.http.client.methods.{CloseableHttpResponse, HttpPost}
 import org.apache.http.entity.StringEntity
+import org.apache.http.impl.client.HttpClients
 import org.apache.http.util.EntityUtils
 import play.api.libs.json._
 
@@ -12,16 +13,15 @@ case class LambdaResponse(body: ResponseBody)
 case class UserQuery(prompt: String)
 
 object LambdaClient {
-  private val config: LambdaConfig = AppConfig.load().lambdaConfig
   private implicit val responseBodyReads: Reads[ResponseBody] = Json.reads[ResponseBody]
   private implicit val lambdaResponseReads: Reads[LambdaResponse] = Json.reads[LambdaResponse]
+  private val config = AppConfig.load()
 
   implicit val promptRequestFormat: OFormat[UserQuery] = Json.format[UserQuery]
 
   def run(prompt: String): ResponseBody = {
-    val url = config.url
     val client = HttpClients.createDefault()
-    val request = new HttpPost(url)
+    val request = new HttpPost(config.lambdaUrl)
 
 
     // Set the request body (assuming `requestBody` is a JSON string)
