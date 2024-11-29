@@ -1,23 +1,16 @@
-
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
 ThisBuild / scalaVersion := "2.12.18"
 
-lazy val root = (project in file("."))
-  .settings(
-    name := "gRPCServer"
-  )
 
-// More specific dependency conflict resolution
 ThisBuild / libraryDependencySchemes ++= Seq(
   "io.circe" %% "*" % "early-semver",
   "org.typelevel" %% "*" % "early-semver"
 )
 
-// Increase the error level to warn instead of error for version conflicts
 ThisBuild / evictionErrorLevel := Level.Warn
 
-Compile / mainClass := Some("com.khan.api.server.main")
+Compile / mainClass := Some("com.khan.gRPCServer.LambdaServer")
 
 Compile / PB.targets := Seq(
   scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
@@ -51,14 +44,6 @@ libraryDependencies ++= Seq(
   "io.netty" % "netty-all" % "4.1.100.Final",
   "io.netty" % "netty-transport-native-epoll" % "4.1.100.Final" classifier "linux-x86_64",
 )
-
-//// Force specific versions for problematic transitive dependencies
-//dependencyOverrides ++= Seq(
-//  "io.circe" %% "circe-jawn" % circeVersion,
-//  "io.circe" %% "circe-core" % circeVersion,
-//  "io.circe" %% "circe-parser" % circeVersion,
-//  "io.circe" %% "circe-generic" % circeVersion
-//)
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % "2.5.26",

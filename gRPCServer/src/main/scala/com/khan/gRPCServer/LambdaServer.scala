@@ -18,6 +18,8 @@ class LambdaServer(executionContext: ExecutionContext) { self =>
   val logger: Logger = LoggerFactory.getLogger("gRPCServer")
   val config: AppConfig = AppConfig.load()
 
+  // Set as a mutable var with initialization of server being handled in the
+  // start method
   private[this] var server: Server = null
 
   private def start(): Unit = {

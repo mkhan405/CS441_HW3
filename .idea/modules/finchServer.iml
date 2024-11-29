@@ -8,7 +8,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../../finchServer/src/main/scala" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../finchServer/src/test/scala" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../finchServer/src/main/resources" type="java-resource" />
-      <excludeFolder url="file://$MODULE_DIR$/../../finchServer/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

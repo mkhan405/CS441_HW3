@@ -1,6 +1,5 @@
 package com.khan.gRPCServer
 
-
 import org.apache.http.client.methods.{CloseableHttpResponse, HttpPost}
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClients
@@ -28,20 +27,13 @@ object LambdaClient {
     val requestData = UserQuery(prompt)
     val jsonString: String = Json.toJson(requestData).toString()
 
-    print(jsonString)
-
     request.setEntity(new StringEntity(jsonString))
-
-    // Set the appropriate headers for JSON content
-    // request.setHeader("Content-Type", "application/json")
-    //    request.setHeader("Accept", "application/json")
 
     val response: CloseableHttpResponse = client.execute(request)
 
     try {
       val entity = response.getEntity
       val responseString = EntityUtils.toString(entity)
-      print(responseString)
       parseResponse(responseString)
 
     } finally {

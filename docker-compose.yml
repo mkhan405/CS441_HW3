@@ -1,0 +1,22 @@
+---
+services:
+  finch:
+    build:
+      context: finchServer
+    networks:
+      - llmNetwork
+    container_name: finch
+    ports:
+      - "8081:8081"
+  grpc:
+    build:
+      context: gRPCServer
+    networks:
+      - llmNetwork
+    container_name: gRPC
+    ports:
+      - "50051:50051"
+
+networks:
+  llmNetwork:
+    driver: bridge
