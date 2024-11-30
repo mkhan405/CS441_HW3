@@ -5,7 +5,7 @@ services:
       context: gRPCServer
     networks:
       - llmNetwork
-    container_name: grpc
+    container_name: gRPC
     ports:
       - "50051:50051"
 
@@ -34,7 +34,7 @@ services:
       sleep 10;
       curl http://finch:8081/hello;
       curl http://finch:8081/stats;
-      curl -X POST http://finch:8081/query -H \"Content-Type: application/json\" -d '{\"prompt\":\"Hello World\"}';
+      curl -X POST http://finch:8081/query -H \"Content-Type: application/json\" -d '{\"prompt\":\"Who is the president of the US?\"}';
       sleep 1;
       "
 

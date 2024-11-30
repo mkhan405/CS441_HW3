@@ -116,7 +116,7 @@ curl -X GET 127.0.0.1:8081/stats -H "Content-Type: application/json"
 
 ## Project Video Demonstration
 
-
+[Video Submission Link](https://drive.google.com/file/d/1kHtL1xXLJgqSl2ygG7pYOZNb90lUYQP5/view?usp=sharing)
 ## Project implementation
 
 ### gRPC Messages & Services
