@@ -117,6 +117,8 @@ curl -X GET 127.0.0.1:8081/stats -H "Content-Type: application/json"
 ## Project Video Demonstration
 
 [Video Submission Part 1](https://youtu.be/BvyZTfhNrmA)
+
+
 [Video Submission Part 2](https://youtu.be/DN3MXJWVSoY)
 ## Project implementation
 
