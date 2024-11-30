@@ -114,6 +114,9 @@ curl -X GET 127.0.0.1:8081/stats -H "Content-Type: application/json"
 >> '{"num_of_questions": 5, "total_prompt_tokens": 40, "total_generation_tokens": 500}'
 ```
 
+## Project Video Demonstration
+
+
 ## Project implementation
 
 ### gRPC Messages & Services
@@ -161,6 +164,19 @@ and total prompt tokens used in this conversation session, which can be retrieve
 ### AWS Deployment
 ![AWS Deployment Diagram](aws.png)
 
+The AWS deployment of this project utilizes IAM policies, VPC Endpoints, and Security Groups to ensure secure access to
+AWS resources. The API Gateway for the Lambda function is implemented as a Private REST API Gateway, where only 
+resources from within the specified VPC are allowed to go through. This is enforced by the Resource Policy of the API Gateway.
+The Lambda function is then able to invoke the Bedrock model since it possesses the `AmazonBedrockFullAccess` policy in its
+IAM Execution Role. This is exposed to VPC resources by creating a VPC Endpoint for the API Gateway associated with the
+public subnet. 
+
+A similar approach is utilized for exposing the Elastic Container Registry (ECR) repository, with a VPC Endpoint
+associated with the public subnet of the VPC. These endpoints are then consumed by the EC2 host in the public subnet,
+with the EC2 Role containing the IAM `AmazonAPIGatewayInvokeFullAccess` and `AmazonEC2ContainerRegistryFullAccess`
+policies to ensure access to these resources. Finally, an Internet Gateway was also required to ensure that the EC2
+instance was publicly accessible. This configuration achieves a segmentation of public and private resources, with only
+the EC2 instance exposed publicly and backend services such as the API Gateway only accessible through the VPC.
 
 ### Docker Configuration
 
@@ -203,7 +219,99 @@ up-to-date version.
 
 #### Local Testing
 
+For local testing, a docker compose manifest is utilized to simply this process. The first steps is to regenerate the JAR
+files to ensure the Docker image contains the latest source code:
+
+```sh
+sbt assembly
+```
+
+**NOTE: The lambdaUrl in `gRPCServer/application.conf` must be updated to the local lambda URL to ensure the gRPC server is able to invoke the Lambda function
+via REST as shown previously**
+
+```
+app {
+    port = 50051
+    lambdaUrl = "https://tulxy06dt8.execute-api.us-east-1.amazonaws.com/default/" <- Comment this
+    ;lambdaUrl = "https://3qvzoc1esg.execute-api.us-east-1.amazonaws.com/tempStage/" <- Uncomment this
+}
+```
+
+Then, to run the docker compose manifest, users can run the following from the root directory:
+```sh
+docker compose up
+```
+This is the local YAML manifest:
+```yaml
+---
+services:
+  grpc:
+    build:
+      context: gRPCServer
+    networks:
+      - llmNetwork
+    container_name: grpc
+    ports:
+      - "50051:50051"
+
+  finch:
+    build:
+      context: finchServer
+    networks:
+      - llmNetwork
+    container_name: finch
+    ports:
+      - "8081:8081"
+    depends_on:
+      grpc:
+        condition: service_started
+
+  client:
+    image: centos:latest
+    networks:
+      - llmNetwork
+    container_name: tester
+    depends_on:
+      finch:
+        condition: service_started
+    entrypoint: >
+      sh -c "
+      sleep 10;
+      curl http://finch:8081/hello;
+      curl http://finch:8081/stats;
+      curl -X POST http://finch:8081/query -H \"Content-Type: application/json\" -d '{\"prompt\":\"Hello World\"}';
+      sleep 1;
+      "
+
+networks:
+  llmNetwork:
+    driver: bridge
+```
+
+This achieves the following goals:
+- Creates an explicit bridge network to allow for DNS resolution for the containers using the container name
+- Builds the gRPC Server, Finch REST API Server, and curl HTTP client
+- Allows users to explicitly specify the entrypoint of the http client to make requests to the Finch REST API
+
 #### AWS Configuration
+
+The deployment of the docker containers follows a similar process to the local environment. With the various IAM policies,
+security groups, and VPC endpoints configured, the process is as follows:
+
+- Pull the latest `grpc_server` and `finch_server` images from ECR
+- Create a docker bridge network to host the containers
+- Create and run the gRPC and Finch servers on this newly created network
+
+Below is the code for this process:
+
+```sh
+docker network create cs441_hw3
+docker pull <ecr_url>/cs441_hw3:finch_server
+docker pull <ecr_url>/cs441_hw3:grpc_server
+
+docker run -d -p 50051:50051 --name gRPC --network cs441_hw3 grpc_server
+docker run -d -p 8081:8081 --name finch_server --network cs441_hw3 finch_server
+```
 
 #### Challenges and Resolutions
 - DNS Resolution

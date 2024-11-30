@@ -1,5 +1,14 @@
 ---
 services:
+  grpc:
+    build:
+      context: gRPCServer
+    networks:
+      - llmNetwork
+    container_name: grpc
+    ports:
+      - "50051:50051"
+
   finch:
     build:
       context: finchServer
@@ -8,14 +17,26 @@ services:
     container_name: finch
     ports:
       - "8081:8081"
-  grpc:
-    build:
-      context: gRPCServer
+    depends_on:
+      grpc:
+        condition: service_started
+
+  client:
+    image: centos:latest
     networks:
       - llmNetwork
-    container_name: gRPC
-    ports:
-      - "50051:50051"
+    container_name: tester
+    depends_on:
+      finch:
+        condition: service_started
+    entrypoint: >
+      sh -c "
+      sleep 10;
+      curl http://finch:8081/hello;
+      curl http://finch:8081/stats;
+      curl -X POST http://finch:8081/query -H \"Content-Type: application/json\" -d '{\"prompt\":\"Hello World\"}';
+      sleep 1;
+      "
 
 networks:
   llmNetwork:
