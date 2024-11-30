@@ -32,12 +32,12 @@ object Main extends TwitterServer {
   val stats: Array[Int] = Array(0, 0, 0)
 
   // Ping - test connectivity
-  private val ping: Endpoint[String] = get("hello") {
+  val ping: Endpoint[String] = get("hello") {
     Ok("Hello World")
   }
 
   // Query - Submit user query to lambda via gRPC
-  private val query: Endpoint[UserResponse] = post("query" :: jsonBody[UserRequest]) { request: UserRequest =>
+  val query: Endpoint[UserResponse] = post("query" :: jsonBody[UserRequest]) { request: UserRequest =>
       val queryRequest = QueryRequest(request.prompt)
       val blockingStub = TextGenerationServiceGrpc.blockingStub(channel)
       val reply: GenerationResult = blockingStub.generateResponse(queryRequest)
@@ -49,12 +49,13 @@ object Main extends TwitterServer {
   }
 
   // Stats - Retrieve stats from the current session
-  private val getStats: Endpoint[StatsResponse] = get("stats") {
+  val getStats: Endpoint[StatsResponse] = get("stats") {
     Ok(StatsResponse(stats(0), stats(1), stats(2)))
   }
 
   // Start the server
   log.info(s"Starting finch server on port ${config.port}...")
+
 
   def main(): Unit = {
     val server = Http.server.serve(s":${config.port}", (ping :+: query :+: getStats).toService)

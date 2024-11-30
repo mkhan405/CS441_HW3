@@ -32,6 +32,7 @@
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-core:2.14.1:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-databind:2.14.1:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.1:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.10.5:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.1:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.module:jackson-module-scala_2.12:2.14.1:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml:classmate:1.5.1:jar" level="project" />
@@ -87,6 +88,8 @@
     <orderEntry type="library" name="sbt: com.twitter:util-tunable_2.12:22.12.0:jar" level="project" />
     <orderEntry type="library" name="sbt: com.twitter:util-validator-constraints_2.12:22.12.0:jar" level="project" />
     <orderEntry type="library" name="sbt: com.twitter:util-validator_2.12:22.12.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.play:play-functional_2.12:2.9.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.typesafe.play:play-json_2.12:2.9.2:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe:config:1.4.3:jar" level="project" />
     <orderEntry type="library" name="sbt: io.catbird:catbird-effect_2.12:19.3.0:jar" level="project" />
     <orderEntry type="library" name="sbt: io.catbird:catbird-util_2.12:19.8.0:jar" level="project" />

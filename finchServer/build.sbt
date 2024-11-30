@@ -50,4 +50,5 @@ libraryDependencies ++= Seq(
   "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf",
   "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapb.compiler.Version.scalapbVersion,
   "io.netty" % "netty-tcnative-boringssl-static" % "2.0.58.Final",
+  "com.typesafe.play" %% "play-json" % "2.6.12"
 )

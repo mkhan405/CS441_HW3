@@ -36,7 +36,7 @@ sbt compile
 ```
 app {
     port = 8081
-    gRPCHost = "grcp_server" <- Change this to "127.0.0.1"
+    gRPCHost = "gRPC" <- Change this to "127.0.0.1"
     gRPCPort = 50051
 }
 ```
